@@ -2,11 +2,8 @@ services:
   appserver:
     type: php:custom
     via: cli
-<<<<<<< HEAD
     ssl: true
     sslExpose: false
-=======
->>>>>>> + Update / php 7.4 and latest tools
     overrides:
       image: heroku/heroku:${STACK_VERSION-18}-build
       user: www-data
