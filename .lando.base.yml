@@ -2,6 +2,8 @@ services:
   appserver:
     type: php:custom
     via: cli
+    ssl: true
+    sslExpose: false
     overrides:
       image: heroku/heroku:${STACK_VERSION-18}-build
       user: www-data
