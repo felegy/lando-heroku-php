@@ -1,0 +1,18 @@
+{
+    "name": "felegy/lando-heroku-php",
+    "description": "Lando Heroku PHP scaffold",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Felegy",
+            "email": "felegy@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.3"
+    },
+    "require-dev": {
+        "heroku/heroku-buildpack-php": "*"
+    }
+}

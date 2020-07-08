@@ -1,2 +1,10 @@
 .env
+.bash_history
+.lando.local.yml
+
+/.cache/
+/.composer/
+/.heroku/
+/.local/
+/.profile.d/
 /vendor/

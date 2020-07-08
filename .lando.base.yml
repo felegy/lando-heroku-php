@@ -1,0 +1,26 @@
+services:
+  appserver:
+    type: php:custom
+    via: cli
+    ssl: true
+    sslExpose: false
+    overrides:
+      image: heroku/heroku:${STACK_VERSION-18}-build
+      user: www-data
+      working_dir: /app
+    build_as_root:
+      # Prepare user
+      - usermod -d /app www-data && chsh --shell /bin/bash www-data
+      # Prepare profile
+      - rm /etc/profile && cp /app/.lando/heroku/etc/profile /etc/profile
+    build:
+      # Init
+      - mkdir -p /tmp/buildpack/php /tmp/build_cache /tmp/env
+      # Download latest php buildpack
+      - curl https://buildpack-registry.s3.amazonaws.com/buildpacks/heroku/php.tgz | tar --warning=none -xz -C /tmp/buildpack/php
+      # Clean before build
+      - rm -rf /app/.heroku && rm -rf /app/.profile.d && rm -rf /app/vendor
+      # Configure Heroku Stack before build / Default Stack are the latest now its `heroku-18`
+      #- export STACK=\$\{STACK-heroku-18\}
+      # Compile with php buildpack
+      - export STACK=heroku-18 && /tmp/buildpack/php/bin/compile /app /tmp/build_cache /tmp/env
