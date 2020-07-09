@@ -26,7 +26,7 @@ Install Prerequisites
 
 ### Lando and Docker
 
-The main dependency is `Lando` [https://lando.dev](https://lando.dev/) and also `Docker` of course, but Lando is contains Docker Desktop builtin on Windows and Mac.
+The main dependency is `Lando` [https://lando.dev](https://lando.dev/) and also `Docker` of course, but Lando is contains Docker Desktop built-in on Windows and Mac.
 
 ### Local domain and cert for development
 
@@ -51,14 +51,11 @@ Change directory to repo:
 $ cd lando-heroku-scaffold && lando start
 ```
 
-Create `.lando.yml lige this:
+Create `.lando.yml` like this:
 
 ```yaml
 # .lando.yml
 name: lando-heroku-php
-proxy:
-  appserver:
-    - lando-heroku-php.lndo.site:3000
 
 ```
 and copy `dev.env` to `.env` it contains `PORT` env like this:
@@ -74,6 +71,67 @@ PORT=3000
 
 ```bash
 $ lando start
+```
+
+Install `heroku-cli` to `appserver`:
+
+```yaml
+# .lando.yml
+name: lando-heroku-php
+
+services:
+  appserver:
+    build_as_root:
+      - curl -fsSL https://cli-assets.heroku.com/install-ubuntu.sh | sh
+
+```
+
+Rebuild application:
+
+```bash
+$ lando rebuild
+```
+
+Change appservers startup command via `heroku cli local` by `Procfile` like on heroku:
+
+```yaml
+# .lando.yml
+name: lando-heroku-php
+
+services:
+  appserver:
+    build_as_root:
+      - curl -fsSL https://cli-assets.heroku.com/install-ubuntu.sh | sh
+    overrides:
+      command: bash -l heroku local web
+```
+Rebuild application:
+
+```bash
+$ lando rebuild
+```
+Set proxy route to `appserver` => `PORT` 3000:
+
+```yaml
+# .lando.yml
+name: lando-heroku-php
+
+proxy:
+  appserver:
+    - lando-heroku-php.lndo.site:3000
+
+services:
+  appserver:
+    build_as_root:
+      - curl -fsSL https://cli-assets.heroku.com/install-ubuntu.sh | sh
+    overrides:
+      command: bash -l heroku local web
+```
+
+Rebuild application:
+
+```bash
+$ lando rebuild
 ```
 
 [![asciicast](https://asciinema.org/a/279120.svg)](https://asciinema.org/a/279120)
