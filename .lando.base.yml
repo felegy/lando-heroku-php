@@ -2,7 +2,6 @@ services:
   appserver:
     type: php:custom
     via: cli
-    ssl: true
     sslExpose: false
     overrides:
       image: heroku/heroku:${STACK_VERSION-18}-build
@@ -23,4 +22,4 @@ services:
       # Configure Heroku Stack before build / Default Stack are the latest now its `heroku-18`
       #- export STACK=\$\{STACK-heroku-18\}
       # Compile with php buildpack
-      - export STACK=heroku-18 && /tmp/buildpack/php/bin/compile /app /tmp/build_cache /tmp/env
+      - export STACK=${STACK-heroku-18} && /tmp/buildpack/php/bin/compile /app /tmp/build_cache /tmp/env
